@@ -3,21 +3,23 @@ snap-RPi
 
 ## What is this
 
-A set of blocks and code which enables us to use the GPIOs on a Raspberry Pi from Snap!.
+A set of blocks (currently one block in _Looks_) and code which enables us to use the GPIOs on a Raspberry Pi from Snap!.
 
 ## Bits
 
 - The blocks (currently 'block') in RPiGPIO.xml
 
-- The server th blocks connect to: RPiGPIO.py 
+- The server the blocks connect to: RPiGPIO.py 
 
 ## How to install
 
-Copy the server RPiGPIO.py onto your Pi. Copy RPiGPIO onto your main computer.
+Copy the server RPiGPIO.py onto your Pi. Copy RPiGPIO.xml onto your main computer.
 
 ## How to run
 
-Run the python script from your Pi (with sudo!). Access Snap! from your browser. Import RPiGPIO.xml file. You may have to change the IP address in the blocks (right click + _Edit_) so it points to your Raspberry Pi on your network.
+Run the python script from your Pi (with sudo!). Access Snap! from the browser on your main computer. Import RPiGPIO.xml file into SNap!.
+
+You may have to change the IP address in the blocks (right click + _Edit_) so it points to your Raspberry Pi on your network.
 
 ## Caveat
 
