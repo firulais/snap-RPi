@@ -17,7 +17,7 @@ Copy the server RPiGPIO.py onto your Pi. Copy RPiGPIO.xml onto your main compute
 
 ## How to run
 
-Run the python script from your Pi (with sudo!). Access Snap! from the browser on your main computer. Import RPiGPIO.xml file into SNap!.
+Run the python script from your Pi (with sudo!). Access Snap! from the browser on your main computer. Import RPiGPIO.xml file into Snap!.
 
 You may have to change the IP address in the blocks (right click + _Edit_) so it points to your Raspberry Pi on your network.
 
