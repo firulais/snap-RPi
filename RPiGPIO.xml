@@ -39,4 +39,55 @@ HIGH</options></input></inputs>
         </script>
         
     </block-definition>
+    
+    
+    
+    
+    
+    <block-definition s="is pin %'pin' %'state' ?" type="predicate" category="operators">
+        
+        <header/>
+        <code/>
+        <inputs><input type="%n" readonly="true"><options>0
+1
+4
+7
+8
+9
+10
+11
+14
+15
+17
+18
+21
+22
+23
+24
+25</options></input><input type="%txt" readonly="true">LOW<options>LOW
+HIGH</options></input></inputs>
+
+        <script>
+            <block s="doIfElse">
+                <block s="reportEquals">
+                    <block s="reportURL">
+                        <l>192.168.1.114:8280/pinread</l>
+                    </block>
+                    <l>True</l>
+                </block>
+                <script>
+                    <block s="doReport">
+                        <block s="reportTrue"/>
+                    </block>
+                </script>
+                <script>
+                    <block s="doReport">
+                        <block s="reportFalse"/>
+                    </block>
+                </script>
+            </block>
+        </script>
+        
+    </block-definition>
+    
 </blocks>

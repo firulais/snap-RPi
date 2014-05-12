@@ -10,7 +10,7 @@ class CORSHTTPRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 	GPIO.setmode(GPIO.BCM)                                                                                                                                                                                                      
 	
 	ospath = os.path.abspath('')
-	if 'pinwrite' in path:
+	if 'pinwrite' in path: # write HIGH or LOW to pin
 		regex = re.compile(".*pin=([0-9]*).*state=(LOW|HIGH)")
 		m = regex.match(path)
 		
@@ -21,6 +21,21 @@ class CORSHTTPRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
 		GPIO.setup(pin, GPIO.OUT)
                 GPIO.output(pin, state)
+                
+        elif 'pinread'in path: # read state of pin
+                f = open(ospath + '/rpireturn', 'w+')
+                f.write(str(t.get_sample()))
+                f.close()
+                f = open(ospath + '/rpireturn', 'rb')
+                ctype = self.guess_type(ospath + '/pireturn')
+                self.send_response(200)
+                self.send_header("Content-type", ctype)
+                fs = os.fstat(f.fileno())
+                self.send_header("Content-Length", str(fs[6]))
+                self.send_header("Last-Modified", self.date_time_string(fs.st_mtime))
+                self.send_header("Access-Control-Allow-Origin", "*")
+                self.end_headers()
+                return f
 
 
 if __name__ == "__main__":

@@ -7,7 +7,7 @@ A set of blocks (currently one block in _Looks_) and code which enables us to us
 
 ## Bits
 
-- The blocks (currently 'block') in RPiGPIO.xml
+- The blocks (currently 'block', 1, one, uno, ein) in RPiGPIO.xml
 
 - The server the blocks connect to: RPiGPIO.py 
 
