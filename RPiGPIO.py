@@ -25,7 +25,6 @@ def pinState(pin, state):
     
     GPIO.setup(pin, GPIO.IN, pull_up_down = GPIO.PUD_UP)
     if(GPIO.input(pin) == state):
-        print "Button pressed"
         return True
                 
     return False
