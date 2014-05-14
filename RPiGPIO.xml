@@ -44,7 +44,7 @@ HIGH</options></input></inputs>
     
     
     
-    <block-definition s="is pin %'pin' %'state' ?" type="predicate" category="operators">
+    <block-definition s="pin %&apos;pin&apos; is %&apos;state&apos;" type="predicate" category="operators">
         
         <header/>
         <code/>
@@ -71,9 +71,16 @@ HIGH</options></input></inputs>
             <block s="doIfElse">
                 <block s="reportEquals">
                     <block s="reportURL">
-                        <l>192.168.1.114:8280/pinread</l>
+                        <block s="reportJoinWords">
+                            <list>
+                                <l>192.168.1.114:8280/pinread?pin=</l>
+                                <block var="pin"/>
+                                <l>&amp;state=</l>
+                                <block var="state"/>
+                            </list>
+                        </block>
                     </block>
-                    <l>True</l>
+                    <l>true</l>
                 </block>
                 <script>
                     <block s="doReport">
