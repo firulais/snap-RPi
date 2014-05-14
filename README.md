@@ -3,11 +3,11 @@ snap-RPi
 
 ## What is this
 
-A set of blocks (currently one block in _Looks_) and code which enables us to use the GPIOs on a Raspberry Pi from Snap!.
+A set of blocks (currently only 2) and code which enables us to use the GPIOs on a Raspberry Pi from Snap!.
 
 ## Bits
 
-- The blocks (currently 'block', 1, one, uno, ein) in RPiGPIO.xml
+- The blocks (currently 2 'blocks') in RPiGPIO.xml. Blocks are located in Looks and Operators.
 
 - The server the blocks connect to: RPiGPIO.py 
 

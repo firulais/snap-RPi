@@ -51,7 +51,10 @@ class CORSHTTPRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 		GPIO.setup(pin, GPIO.OUT)
                 GPIO.output(pin, state)
                 
-        elif 'pinread'in path: # read state of pin
+        elif 'pinread'in path: 
+                """ 
+                Read state of pin. Currently only works for PULL UP DOWN, so you have to query if pin is LOW 
+                """
                 regex = re.compile(".*pin=([0-9]*).*state=(LOW|HIGH)")
                 m = regex.match(path)
                 
