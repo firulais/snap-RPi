@@ -21,49 +21,50 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 import SimpleHTTPServer
 import RPi.GPIO as GPIO
 
-def pinState(pin, state):
-    
-    GPIO.setup(pin, GPIO.IN, pull_up_down = GPIO.PUD_UP)
-    if(GPIO.input(pin) == state):
-        return True
-                
-    return False
-
-
 class CORSHTTPRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
     def send_head(self):
 	path = self.path
-        # path looks like this: /pinwrite?pin=1&state=LOW
+	
+        # path looks like this: 
+        # /pinwrite?pin=1&state=LOW
+        # or
+        # /pinread?pin=1&state=LOW
+        
+        self.pin=0
+        self.state=False
 
 	GPIO.setmode(GPIO.BCM)                                                                                                                                                                                                      
 	
 	ospath = os.path.abspath('')
+	
+        regex = re.compile(".*pin=([0-9]*).*state=(LOW|HIGH)")
+        m = regex.match(path)
+	
 	if 'pinwrite' in path: # write HIGH or LOW to pin
-		regex = re.compile(".*pin=([0-9]*).*state=(LOW|HIGH)")
-		m = regex.match(path)
 		
-		pin = int(m.group(1))
-		state = True
+		self.pin = int(m.group(1))
+		self.state = True
 		if m.group(2) == 'LOW':
-			state = False
+			self.state = False
 
-		GPIO.setup(pin, GPIO.OUT)
-                GPIO.output(pin, state)
+		GPIO.setup(self.pin, GPIO.OUT)
+                GPIO.output(self.pin, self.state)
                 
-        elif 'pinread'in path: 
-                """ 
-                Read state of pin. Currently only works for PULL UP DOWN, so you have to query if pin is LOW 
-                """
-                regex = re.compile(".*pin=([0-9]*).*state=(LOW|HIGH)")
-                m = regex.match(path)
-                
-                pin = int(m.group(1))
-                state = 0
-                if m.group(2) == 'HIGH':
-                        state = 1
+        elif 'pinread'in path: # Read state of pin.
+
+                self.pin = int(m.group(1))
+                self.state = True
+                if m.group(2) == 'LOW':
+                        self.state = False
                 
                 f = open(ospath + '/return', 'w+')
-                f.write(str(pinState(pin, state)))
+                
+                GPIO.setup(self.pin, GPIO.IN)
+                if(GPIO.input(self.pin) == self.state):
+                    f.write(str(True))
+                else:
+                    f.write(str(False))
+                    
                 f.close()
                 f = open(ospath + '/return', 'rb')
                 ctype = self.guess_type(ospath + '/rpireturn')
@@ -75,8 +76,8 @@ class CORSHTTPRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                 self.send_header("Access-Control-Allow-Origin", "*")
                 self.end_headers()
                 return f
- 
 
+ 
 if __name__ == "__main__":
     import os
     import re
@@ -84,7 +85,6 @@ if __name__ == "__main__":
     import urllib2
     PORT = 8280 #R+P in ASCII Decimal
     Handler = CORSHTTPRequestHandler
-    #Handler = SimpleHTTPServer.SimpleHTTPRequestHandler
 
     httpd = SocketServer.TCPServer(("", PORT), Handler)
 
