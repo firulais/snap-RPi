@@ -51,6 +51,12 @@ class CORSHTTPRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
                 GPIO.output(self.pin, self.state)
                 
         elif 'pinread'in path: # Read state of pin.
+            
+                """
+                This function contains code borrowed heavily from 
+                Technoboy10 (https://github.com/technoboy10). Look
+                him up. His stuff is amazing!
+                """
 
                 self.pin = int(m.group(1))
                 self.state = True
