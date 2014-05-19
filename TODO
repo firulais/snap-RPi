@@ -1,0 +1,15 @@
+To Do List
+
+-	= Suggested but not implemented
++	= Added
+#	= Suggestion
+/	= Working Feature
+!	= Broken Feature
+
+
+
+=--- TODO ---=
+
+
+/ GPIO Input
+/ GPIO Output
