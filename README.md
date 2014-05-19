@@ -27,6 +27,6 @@ Snap! runs like molasses on the RPi. Don't do that. Until the performance issues
 
 http://snap.berkeley.edu/snapsource/snap.html
 
-## Why doe this exist?
+## Why does this exist?
 
 Because Snap! is easier to extend than Scratch. This leads to some interesting possibilities.
