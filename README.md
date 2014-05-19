@@ -29,4 +29,4 @@ http://snap.berkeley.edu/snapsource/snap.html
 
 ## Why does this exist?
 
-Because Snap! is easier to extend than Scratch. This leads to some interesting possibilities.
+Because Snap! is easy and intuitive to extend, which makes it ideal for educational purposes, i.e., you can use this to teach students how to meta-program, developing the language that they can then use to program the Rpi. This leads to many interesting possibilities.
