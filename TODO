@@ -13,3 +13,5 @@ To Do List
 
 / GPIO Input
 / GPIO Output
+- Block for board pin numbers
+- Block for PIN DOWN UP switches
