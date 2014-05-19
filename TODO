@@ -15,3 +15,5 @@ To Do List
 / GPIO Output
 - Block for board pin numbers
 - Block for PIN DOWN UP switches
+# Automatically detect RPi on local network and change IPs in blocks dynamically? Is this even possible?
+# Modify a locally available version of Snap! to load with blocks already included. If served from the Pi, that would probably solve the prior feature.
