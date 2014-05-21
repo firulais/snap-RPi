@@ -20,6 +20,10 @@ along with this program.  If not, see <http://www.gnu.org/licenses/>.
 
 import SimpleHTTPServer
 import RPi.GPIO as GPIO
+import os
+import re
+import SocketServer
+import urllib2
 
 class CORSHTTPRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
     def send_head(self):
@@ -85,10 +89,6 @@ class CORSHTTPRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
 
  
 if __name__ == "__main__":
-    import os
-    import re
-    import SocketServer
-    import urllib2
     PORT = 8280 #R+P in ASCII Decimal
     Handler = CORSHTTPRequestHandler
 
