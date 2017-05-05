@@ -1,4 +1,5 @@
-#!/usr/bin/python
+#!/usr/bin/python3
+# -*- coding: utf-8 -*-
 
 """
 Snap! extension to support Raspberry Pi -- server component.
@@ -18,84 +19,103 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <http://www.gnu.org/licenses/>.
 """
 
-import SimpleHTTPServer
-import RPi.GPIO as GPIO
+import http.server
 import os
 import re
-import SocketServer
-import urllib2
+import socketserver
+import urllib.request
+import logging
 
-class CORSHTTPRequestHandler(SimpleHTTPServer.SimpleHTTPRequestHandler):
+if __debug__:
+    import RPi.GPIO as GPIO
+else:
+    import MockupRPi.GPIO as GPIO
+
+
+class CORSHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
+
+    regex = re.compile('.*pin=([0-9]*).*state=(LOW|HIGH)')
+    ospath = os.path.abspath('')
+        
     def send_head(self):
-	path = self.path
-	
-        # path looks like this: 
+        path = self.path
+        
+        logging.info(path)
+        
+        # path looks like this:
         # /pinwrite?pin=1&state=LOW
         # or
         # /pinread?pin=1&state=LOW
-        
-        self.pin=0
-        self.state=False
 
-	GPIO.setmode(GPIO.BCM)                                                                                                                                                                                                      
-	
-	ospath = os.path.abspath('')
-	
-        regex = re.compile(".*pin=([0-9]*).*state=(LOW|HIGH)")
-        m = regex.match(path)
-	
-	if 'pinwrite' in path: # write HIGH or LOW to pin
-		
-		self.pin = int(m.group(1))
-		self.state = True
-		if m.group(2) == 'LOW':
-			self.state = False
+        self.pin = 0
+        self.state = False
 
-		GPIO.setup(self.pin, GPIO.OUT)
-                GPIO.output(self.pin, self.state)
-                
-        elif 'pinread'in path: # Read state of pin.
+        GPIO.setmode(GPIO.BCM)
+
+        m = self.regex.match(path)
+
+        if 'pinwrite' in path:  # write HIGH or LOW to pin
+
+            self.pin = int(m.group(1))
+            self.state = True
+            if m.group(2) == 'LOW':
+                self.state = False
+
+            GPIO.setup(self.pin, GPIO.OUT)
+            GPIO.output(self.pin, self.state)
+
+            #The Snap! block reports the body of the Web server’s response 
+            #(minus HTTP header), without interpretation.
+
+            #At a minimum, we must provide a header with a status line and a date.
+            self.send_response(200)
+            self.send_header('Date', self.date_time_string())
+            self.end_headers()
+            return f
             
-                """
-                This function contains code borrowed heavily from 
-                Technoboy10 (https://github.com/technoboy10). Look
-                him up. His stuff is amazing!
-                """
+        elif 'pinread' in path:
 
-                self.pin = int(m.group(1))
-                self.state = True
-                if m.group(2) == 'LOW':
-                        self.state = False
-                
-                f = open(ospath + '/return', 'w+')
-                
-                GPIO.setup(self.pin, GPIO.IN)
-                if(GPIO.input(self.pin) == self.state):
-                    f.write(str(True))
-                else:
-                    f.write(str(False))
-                    
-                f.close()
-                f = open(ospath + '/return', 'rb')
-                ctype = self.guess_type(ospath + '/rpireturn')
-                self.send_response(200)
-                self.send_header("Content-type", ctype)
-                fs = os.fstat(f.fileno())
-                self.send_header("Content-Length", str(fs[6]))
-                self.send_header("Last-Modified", self.date_time_string(fs.st_mtime))
-                self.send_header("Access-Control-Allow-Origin", "*")
-                self.end_headers()
-                return f
+            # Read state of pin.
 
- 
-if __name__ == "__main__":
-    PORT = 8280 #R+P in ASCII Decimal
+            self.pin = int(m.group(1))
+            self.state = True
+            if m.group(2) == 'LOW':
+                self.state = False
+
+            f = open(self.ospath + '/return', 'w+')
+
+            GPIO.setup(self.pin, GPIO.IN)
+            if GPIO.input(self.pin) == self.state:
+                f.write(str(True))
+            else:
+                f.write(str(False))
+
+            f.close()
+            f = open(self.ospath + '/return', 'rb')
+            ctype = self.guess_type(self.ospath + '/rpireturn')
+            
+            #create minimal response
+            self.send_response(200)
+            self.send_header('Date', self.date_time_string())
+            self.send_header('Content-type', ctype)
+            fs = os.fstat(f.fileno())
+            self.send_header('Content-Length', str(fs[6]))
+            self.send_header('Last-Modified',
+                             self.date_time_string(fs.st_mtime))
+            self.send_header('Access-Control-Allow-Origin', '*')
+            self.end_headers()
+            return f
+
+
+if __name__ == '__main__':
+    logging.basicConfig(level=logging.INFO, handlers=[logging.FileHandler("access.log"), logging.StreamHandler()])
+    
+    PORT = 8280  # R+P in ASCII Decimal
     Handler = CORSHTTPRequestHandler
-
-    httpd = SocketServer.TCPServer(("", PORT), Handler)
-
-    print "serving at port", PORT
-    print "Go ahead and launch Snap!"
+    
+    httpd = socketserver.TCPServer(('', PORT), Handler)
+    
+    logging.info('serving at port ' + str(PORT))
+    print('Go ahead and launch Snap!')
+    
     httpd.serve_forever()
-
-
