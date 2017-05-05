@@ -1,0 +1,1 @@
+C:\Program Files\Python36\Scripts\pip.exe install 
