@@ -1,4 +1,5 @@
-# Mockup for RPi.GPIO
+# Mockup for RPi.GPIO - A module to control Raspberry Pi GPIO channels
+# https://pypi.python.org/pypi/RPi.GPIO
 # You could try gpiozero library instead of RPi.GPIO.
 
 BOARD = 1
