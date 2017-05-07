@@ -75,7 +75,7 @@ def setmode(mode):
 # mode = GPIO.getmode()
 def getmode():
    # The mode will be GPIO.BOARD, GPIO.BCM or None
-    return 1
+    return BOARD
     
 # GPIO.setup(channel, GPIO.IN)
 # GPIO.setup(channel, GPIO.OUT, initial=GPIO.HIGH)
@@ -174,16 +174,28 @@ def wait_for_edge(
 def gpio_function(channel):
     return 1
 
-# GPIO.cleanup()
-def cleanup():
-    print('cleanup')
-
+# GPIO.cleanup()  
 # GPIO.cleanup(channel)
 # GPIO.cleanup( (channel1, channel2) )
 # GPIO.cleanup( [channel1, channel2] )
 # echo "22" > /sys/class/gpio/unexport
-def cleanup(channel):
+def cleanup(channel=None):
     print ('cleanup', channel)
+
+    if channel is None:
+        directory = IO_PATH    
+        for root, dirs, files in os.walk(directory, topdown=False):
+            for name in files:
+                os.remove(os.path.join(root, name))
+            for name in dirs:
+                os.rmdir(os.path.join(root, name))
+    else:
+        directory = IO_PATH + IO_GPIO + str(channel)       
+        for root, dirs, files in os.walk(directory, topdown=False):
+            for name in files:
+                os.remove(os.path.join(root, name))
+            for name in dirs:
+                os.rmdir(os.path.join(root, name))
     
 # GPIO.setwarnings(False)
 # python function setwarnings(state)
@@ -200,6 +212,10 @@ if __name__ == '__main__':
     _signal(21, HIGH) #simulate signal
     value = input(21)
     print("value="+value)
+    
+    cleanup(21)
+    cleanup()
+    
     print(str(RPI_INFO))
     print(str(RPI_INFO['P1_REVISION']))
     
