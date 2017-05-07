@@ -21,6 +21,17 @@ Run the python script from your Pi (with sudo!). Access Snap! from the browser o
 
 You may have to change the IP address in the blocks (right click + _Edit_) so it points to your Raspberry Pi on your network.
 
+## References
+
+For properly working you need to have installed "Snap! Build Your Own Blocks".
+It is a visual, blocks based programming language inspired by Scratch.
+
+You can have a look at "Snap! Build Your Own Blocks" on
+http://snap.berkeley.edu/index.html
+
+Source code can be found on
+https://github.com/jmoenig/Snap--Build-Your-Own-Blocks
+
 ## Caveat
 
 Snap! runs like molasses on the RPi. Don't do that. Until the performance issues are solved, you can run Snap! from a server on the Pi (I use lighttpd) and access it from a more powerful computer on your network. Or just connect to the official implementation at Berkeley:

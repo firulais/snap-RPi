@@ -71,7 +71,6 @@ class CORSHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
             self.send_response(200)
             self.send_header('Date', self.date_time_string())
             self.end_headers()
-            return f
             
         elif 'pinread' in path:
 
@@ -104,8 +103,8 @@ class CORSHTTPRequestHandler(http.server.SimpleHTTPRequestHandler):
                              self.date_time_string(fs.st_mtime))
             self.send_header('Access-Control-Allow-Origin', '*')
             self.end_headers()
-            return f
-
+        
+		return f
 
 if __name__ == '__main__':
     logging.basicConfig(level=logging.INFO, handlers=[logging.FileHandler("access.log"), logging.StreamHandler()])

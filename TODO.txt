@@ -17,3 +17,62 @@ To Do List
 - Block for PIN DOWN UP switches
 # Automatically detect RPi on local network and change IPs in blocks dynamically? Is this even possible?
 # Modify a locally available version of Snap! to load with blocks already included. If served from the Pi, that would probably solve the prior feature.
++ Menu / libraries / RaspberryPi GPIO Enable
+- WebSocket e.g. by ws://localhost
+
+=--- TODO Mockup ---=
+- simulate simple GPIO activity by keyboard hits
+
+=--- TODO Snap ---=
+
+*** Sensing blocks that are in Scratch but not in Snap!
+
+- "Lärmpegel" (Fühlen/wie Stoppuhr
+  (Sensing/like timer)
+
+- "laut?" (Fühlen/Boolen spitz)
+Note: Your computer must have a working microphone in order for this block to work
+
+
+- "sensor value #sensor#"
+slider|light|sound|resistance-A..D|tilt|distance
+
+Works with a Scratch sensor board or LEGO(r) WeDo(tm).
+
+Click #sensor# to choose which sensor (slider, light, etc.)
+
+To change the serial port number or show the ScratchBoard watcher, right-click on the block (Mac: Ctrl+click).
+
+* "show ScratchBoard watcher"
+  - select serial/USB-port
+  - close port
+* "Unterstützung für Netzwerksensoren einschalten"
+
+
+- "sensor #button pressed#" (boolean)
+#button pressed#|"A connected"|..|"D connected"
+
+Works with a Scratch sensor board.
+To display all the sensor value or change the
+serial port number, right-click on the block
+(Mac: Ctrl+click) and choose 'show ScratchBoard watcher'
+
+"A connected" kann über drücken der Schaltflächen simuliert werden
+
+
+*** Bewegung
+
+- motor blocks
+
+"schalte Motor für #1# Sekunde an"
+"schalte Motor an"
+"setzte Motorkraft auf #100#"
+"setzte Motorrichtung auf #in diese Richtung#
+
+- start GPIO
+
+
+
+
+
+
